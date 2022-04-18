@@ -50,8 +50,9 @@ namespace Serial_CartDumper
             {
                 if(line==null || line.Length==0) return;
                 if(line.EndsWith(" >>> BASE64 DUMP END")){
+                    bool isSaveData = line.IndexOf("SAVE")>0 ? true : false;
                     string ext = GetFileType(line);
-                    OutputData(ext);
+                    OutputData(ext, isSaveData);
                     receivingDumpData = false;
                 }
                 if(receivingDumpData){
@@ -82,7 +83,7 @@ namespace Serial_CartDumper
             SerialOpen();
         }
 
-        private void OutputData(string ext)
+        private void OutputData(string ext, bool isSave)
         {
             byte[] data = binaryData.ToArray();
             binaryData.SetLength(0);
@@ -91,7 +92,12 @@ namespace Serial_CartDumper
             {
                 try
                 {
-                    string fileName = "CART." + ext;
+                    string fileName;
+                    if(isSave){
+                        fileName = "SAVE." + ext;
+                    }else{
+                        fileName = "CART." + ext;
+                    }
                     System.IO.File.WriteAllBytes(fileName, data);
                     GuiDialog("output " + fileName);
                 }
