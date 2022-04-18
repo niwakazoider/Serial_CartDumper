@@ -190,6 +190,18 @@ namespace Serial_CartDumper
                     return "nes";
                 case "GB":
                     return "gb";
+                case "NES|SAVE":
+                    return "bin";
+                case "GB|SAVE":
+                    return "sav";
+                case "GBA|SAVE":
+                    return "srm";
+                case "SNES|SAVE":
+                    return "srm";
+                case "N64|SAVE4":
+                    return "fla";
+                case "N64|SAVE1":
+                    return "sra";
                 default:
                     return "bin";
             }
